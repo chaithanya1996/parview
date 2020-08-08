@@ -16,4 +16,4 @@ jobs:
     - name: list files
       run: ls -ltr
     - name: configure
-      run: ./configure/ubuntu-env.sh
+      run: sudo ./configure/ubuntu-env.sh

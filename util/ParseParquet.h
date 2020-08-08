@@ -12,6 +12,8 @@ using std::string;
 class ParseParquet {
 public:
     static string getCsv(string path);
+    static string getHead(const string& path, int counH = 50);
+    static string getTail(const string& path, int coun = 50);
 };
 
 

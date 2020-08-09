@@ -17,3 +17,5 @@ apt install -y -V libarrow-flight-dev # For Flight C++
 apt install -y -V libplasma-dev # For Plasma C++
 apt install -y -V libgandiva-dev # For Gandiva C++
 apt install -y -V libparquet-dev # For Apache Parquet C++
+apt install -y -V libboost-all-dev
+apt install -y -V cmake

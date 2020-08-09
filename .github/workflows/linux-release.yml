@@ -19,4 +19,4 @@ jobs:
       run: cmake .
     - name: make build
       run: make
-      with: parview
+      path: parview

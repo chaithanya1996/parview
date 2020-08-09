@@ -23,6 +23,6 @@ jobs:
 
     - uses: actions/upload-artifact@v2
     - name: Upload parview
-        with:
+      with:
           name: parview build
           path: ./parview

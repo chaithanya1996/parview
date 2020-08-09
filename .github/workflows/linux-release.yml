@@ -20,9 +20,7 @@ jobs:
 
     - name: make build
       run: make
-
-    - uses: actions/upload-artifact@v2
-    - name: Upload parview
-      with:
-          name: parview build
-          path: ./parview
+      
+    - name:  Upload Artifact 
+      with: 
+        path: ./parview

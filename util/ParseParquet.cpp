@@ -7,7 +7,10 @@
 #include "ParseParquet.h"
 #include <stdexcept>
 #include <iostream>
+#include <iomanip>
 
+using std::cout;
+using std::endl;
 
 string ParseParquet::getCsv(string path) {
     arrow::Status st;
@@ -56,7 +59,8 @@ string ParseParquet::getCsv(string path) {
     return csvoutput;
 }
 
-string ParseParquet::getTail(const string& path,int coun) {
+void ParseParquet::getTail(const string& path,int coun) {
+    int formatWidth = 10;
 
     arrow::Status st;
     auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
@@ -86,30 +90,59 @@ string ParseParquet::getTail(const string& path,int coun) {
     auto headerFile = table->schema();
     auto headerList = headerFile->field_names();
 
-    string csvoutput ;
-    for (int i = 0; i < headerList.size(); ++i) {
-        csvoutput.append(headerList[i]);
-        if (i!=headerList.size()-1) {
-            csvoutput.append(",");
-        };
+    // formatter for loop
+
+    std::vector<int> formatRow(headerList.size()) ;
+
+    for (int j = 0; j < combinedTable->num_columns(); ++j) {
+        for (int k = combinedTable->num_rows() - coun; k < combinedTable->num_rows(); ++k) {
+            auto chunkedColumns = combinedTable->column(j)->chunk(0);
+            auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
+
+            if(formatRow[j] < idCast->GetScalar(k).ValueOrDie()->ToString().length()){
+                formatRow[j] = idCast->GetScalar(k).ValueOrDie()->ToString().length();
+            };
+
+        }
     }
-    csvoutput.append("\n");
+
+    int formatRowCount = 0;
+    for (int i = 0; i < headerList.size(); ++i) {
+        formatRow[i] += 3;
+        formatRowCount += formatRow[i];
+    }
+    cout << endl;
+
+
+    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+        cout << "-";
+    }
+    cout << endl;
+
+    for (int i = 0; i < headerList.size(); ++i) {
+        cout << std::setw(formatRow[i]) << std::right << headerList[i]  << "|" ;
+    }
+    cout << endl;
+
+    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+        cout << "-";
+    }
+    cout << endl;
 
     for (int k = combinedTable->num_rows() - coun; k < combinedTable->num_rows(); ++k) {
         for (int j = 0; j < combinedTable->num_columns(); ++j) {
             auto chunkedColumns = combinedTable->column(j)->chunk(0);
             auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
-            csvoutput.append(idCast->GetScalar(k).ValueOrDie()->ToString());
-            csvoutput.append(",");
-        }
-        csvoutput.append("\n");
-    }
-    csvoutput.append("\n");
 
-    return csvoutput;
+            cout << std::setw(formatRow[j]) << std::right << idCast->GetScalar(k).ValueOrDie()->ToString() << "|";
+
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
 
-string ParseParquet::getHead(const string& path,int counH) {
+void ParseParquet::getHead(const string& path,int counH) {
     arrow::Status st;
     auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
     arrow::MemoryPool* pool = arrow::default_memory_pool();
@@ -134,29 +167,64 @@ string ParseParquet::getHead(const string& path,int counH) {
     if(combinedTable->num_rows() < counH){
         counH = combinedTable->num_rows();
     }
+
+
     // writing header
     auto headerFile = table->schema();
     auto headerList = headerFile->field_names();
 
-    string csvoutput ;
-    for (int i = 0; i < headerList.size(); ++i) {
-        csvoutput.append(headerList[i]);
-        if (i!=headerList.size()-1) {
-            csvoutput.append(",");
-        };
+    // formatter for loop
+
+    std::vector<int> formatRow(headerList.size()) ;
+
+    for (int j = 0; j < combinedTable->num_columns(); ++j) {
+        for (int k = 0; k < counH; ++k) {
+            auto chunkedColumns = combinedTable->column(j)->chunk(0);
+            auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
+
+            if(formatRow[j] < idCast->GetScalar(k).ValueOrDie()->ToString().length()){
+                formatRow[j] = idCast->GetScalar(k).ValueOrDie()->ToString().length();
+            };
+
+        }
     }
-    csvoutput.append("\n");
+
+
+
+    int formatRowCount = 0;
+    for (int i = 0; i < headerList.size(); ++i) {
+        formatRow[i] += 3;
+        formatRowCount += formatRow[i];
+    }
+    cout << endl;
+
+// writing Header
+
+
+    cout << endl;
+    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+        cout << "-";
+    }
+    cout << endl;
+
+    for (int i = 0; i < headerList.size(); ++i) {
+        cout << std::setw(formatRow[i]) << std::right << headerList[i]  << "|" ;
+    }
+    cout << endl;
+
+    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+        cout << "-";
+    }
+    cout << endl;
+
 
     for (int k = 0; k < counH; ++k) {
         for (int j = 0; j < combinedTable->num_columns(); ++j) {
             auto chunkedColumns = combinedTable->column(j)->chunk(0);
             auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
-            csvoutput.append(idCast->GetScalar(k).ValueOrDie()->ToString());
-            csvoutput.append(",");
+            cout << std::setw(formatRow[j]) << std::right << idCast->GetScalar(k).ValueOrDie()->ToString() << "|";
         }
-        csvoutput.append("\n");
+        cout << endl;
     }
-    csvoutput.append("\n");
-
-    return csvoutput;
+    cout << endl;
 }

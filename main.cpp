@@ -22,7 +22,7 @@ int main(int argc, char *argv[] ) {
             ("head", po::value<int>(), "No of lines to be displayed from the start of the parquet file \n Default Value is 50")
             ("tail", po::value<int>(), "No of lines to be displayed till the bottom of the parquet file \n Default Value is 50")
             ("csv",po::value<bool>(),"Convert the parquet file to csv file with delimiter ,")
-            ("filename",po::value<string>()->required(),"specify the parquet file name")
+            ("filename",po::value<string>(),"specify the parquet file name")
             ("output,o",po::value<string>(),"specify the output file name");
 
     po::variables_map vm;
@@ -35,12 +35,12 @@ int main(int argc, char *argv[] ) {
     }
 
     if (vm.count("head")){
-        cout << ParseParquet::getHead(vm.at("filename").as<string>(),vm.at("head").as<int>());
+        ParseParquet::getHead(vm.at("filename").as<string>(),vm.at("head").as<int>());
         return 0;
     }
 
     if (vm.count("tail")){
-        cout << ParseParquet::getTail(vm.at("filename").as<string>(),vm.at("tail").as<int>());
+        ParseParquet::getTail(vm.at("filename").as<string>(),vm.at("tail").as<int>());
         return 0;
     }
 

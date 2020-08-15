@@ -24,7 +24,7 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_WITH_ZSTD=ON \
                 -DORC_SOURCE=BUNDLED
 
-make -j2 arrow/cpp/build/Makefile
+make  arrow/cpp/build/Makefile
 
 make install -C arrow/cpp/build/
 

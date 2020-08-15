@@ -19,6 +19,8 @@ jobs:
         with:
           repository: apache/arrow
           path: arrow
+
+      - name: List Values
         run: ls -ltrh
 
 

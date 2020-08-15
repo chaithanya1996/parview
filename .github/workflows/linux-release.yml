@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Installing Build Tools.
-        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
+#      - name: Installing Build Tools.
+#        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
 
       - name: Building Apache Arrow
         uses: actions/checkout@v2

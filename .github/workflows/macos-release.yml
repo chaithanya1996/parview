@@ -14,7 +14,7 @@ jobs:
           path: .
 
       - name: Installing Build Tools.
-        run: chmod +x ./configure/macos-env.sh && sudo ./configure/macos-env.sh
+        run: chmod +x ./configure/macos-env.sh &&  ./configure/macos-env.sh
 
       - name: Get Arrow repo
         uses: actions/checkout@v2

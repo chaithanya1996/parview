@@ -12,7 +12,9 @@ jobs:
 
     steps:
       - name: Get Arrow repo
-          uses: actions/checkout@v2
+        uses: actions/checkout@v2
+        with:
+          path: .
 
       - name: Installing Build Tools.
         run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
@@ -26,7 +28,6 @@ jobs:
 
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
-
 
       - name: cmake generation
         run: cmake .

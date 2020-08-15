@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Building static parquet viewer binary for linux.
 
 on:
   push:
@@ -8,20 +8,28 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
-    - name: configure
-      run:  chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
+      - name: Installing Build Tools.
+        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
 
-    - name: cmake generation
-      run: cmake .
+      - name: Building Apache Arrow
+        uses: actions/checkout@v2
+        with:
+          repository: apache/arrow
+          path: arrow
+        run: ls -ltrh
 
-    - name: make build
-      run: make
-      
-    - name:  Upload Artifact 
-      uses: actions/upload-artifact@v2
-      with: 
-        path: ./parview
+
+#      - name: cmake generation
+#        run: cmake .
+#
+#      - name: make build
+#        run: make
+#
+#      - name:  Upload Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: parview
+#          path: ./parview

@@ -4,7 +4,7 @@ project(parview)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 set(CMAKE_CXX_STANDARD 11)
 set(ARROW_LINK_SHARED OFF)
-
+set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(Arrow REQUIRED)
 find_package(Threads REQUIRED)

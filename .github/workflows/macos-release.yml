@@ -1,4 +1,4 @@
-name: Building static parquet viewer binary for linux.
+name: "[Macos 10.15]Building binary."
 
 on: [push,pull_request]
 

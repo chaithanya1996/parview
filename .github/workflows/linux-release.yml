@@ -1,4 +1,4 @@
-name: Building static parquet viewer binary for linux.
+name: '[Ubuntu-20.04]Build static binary'
 
 on: [push,pull_request]
 

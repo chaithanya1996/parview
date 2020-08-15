@@ -5,7 +5,7 @@ on: [push,pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: macos-10.15
 
     steps:
       - name: Get Arrow repo
@@ -14,7 +14,7 @@ jobs:
           path: .
 
       - name: Installing Build Tools.
-        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
+        run: chmod +x ./configure/macos-env.sh && sudo ./configure/macos-env.sh
 
       - name: Get Arrow repo
         uses: actions/checkout@v2
@@ -26,15 +26,14 @@ jobs:
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
 
-
       - name: cmake generation
         run: cmake .
 
       - name: make build
-        run: make -j2
+        run: make
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: parview_linux_x86_64_static_binary
+          name: parview_macos_x86_64_static_binary
           path: ./parview

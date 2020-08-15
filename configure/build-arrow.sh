@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir arrow/build
-cmake -S arrow/  -B arrow/build \
+mkdir arrow/cpp/build
+cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
                 -DARROW_COMPUTE=ON \
@@ -24,7 +24,7 @@ cmake -S arrow/  -B arrow/build \
                 -DARROW_WITH_ZSTD=ON \
                 -DORC_SOURCE=BUNDLED
 
-make -j2 arrow/build/Makefile
+make -j2 arrow/cpp/build/Makefile
 
-make install -C arrow/build/
+make install -C arrow/cpp/build/
 

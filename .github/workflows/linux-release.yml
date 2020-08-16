@@ -26,6 +26,7 @@ jobs:
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
 
+
       - name: cmake generation
         run: cmake .
 

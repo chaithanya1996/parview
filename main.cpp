@@ -18,11 +18,11 @@ int main(int argc, char *argv[] ) {
     int tailC=50;
     // Add Supported options
     manOptions.add_options()
-            ("help", "See availabale Commands and the usage")
-            ("head", po::value<int>(), "No of lines to be displayed from the start of the parquet file \n Default Value is 50")
-            ("tail", po::value<int>(), "No of lines to be displayed till the bottom of the parquet file \n Default Value is 50")
-            ("csv",po::value<bool>(),"Convert the parquet file to csv file with delimiter ,")
-            ("filename",po::value<string>(),"specify the parquet file name")
+            ("help", "See available Commands and the usage")
+            ("head,h", po::value<int>(), "No of lines to be displayed from the start of the parquet file \n Default Value is 50")
+            ("tail,t", po::value<int>(), "No of lines to be displayed till the bottom of the parquet file \n Default Value is 50")
+            ("csv,c",po::value<bool>(),"Convert the parquet file to csv file with delimiter ,")
+            ("filename,f",po::value<string>(),"specify the parquet file name")
             ("output,o",po::value<string>(),"specify the output file name");
 
     po::variables_map vm;

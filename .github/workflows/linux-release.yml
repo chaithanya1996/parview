@@ -27,7 +27,7 @@ jobs:
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
 
       - uses: actions/cache@v2
-        id: cache Arrow Build Fles
+        id: cache
         with:
           path: /arrow
           key: ${{ runner.os }}-${{ hashFiles('./configure/build-arrow.sh ') }}

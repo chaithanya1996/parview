@@ -13,4 +13,4 @@ message(STATUS "Arrow version: ${ARROW_VERSION}")
 message(STATUS "Arrow SO version: ${ARROW_FULL_SO_VERSION}")
 
 add_executable(parview main.cpp util/ParseParquet.cpp util/ParseParquet.h)
-target_link_libraries(parview   ${Boost_LIBRARIES}  parquet_static arrow_static Threads::Threads  )
+target_link_libraries(parview   ${Boost_LIBRARIES}  parquet arrow_static Threads::Threads  )

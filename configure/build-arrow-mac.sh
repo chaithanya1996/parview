@@ -24,8 +24,8 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_WITH_ZLIB=ON \
                 -DARROW_WITH_ZSTD=ON \
                 -DORC_SOURCE=BUNDLED \
-                -DCMAKE_C_COMPILER=gcc-9.3.0 \
-                -DCMAKE_CXX_COMPILER=g++-9.3.0
+                -DCMAKE_C_COMPILER=/usr/local/bin/gcc-9.3.0 \
+                -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-9.3.0
 
 make  arrow/cpp/build/Makefile
 

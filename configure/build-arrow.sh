@@ -14,7 +14,7 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_WITH_LZ4=ON \
                 -DARROW_WITH_SNAPPY=ON \
                 -DARROW_WITH_ZLIB=ON \
-                -DARROW_WITH_ZSTD=ON \
+                -DARROW_WITH_ZSTD=ON
 
 make  arrow/cpp/build/Makefile
 

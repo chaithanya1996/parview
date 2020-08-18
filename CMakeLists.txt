@@ -4,7 +4,7 @@ project(parview)
 option(ARROW_LINK_SHARED "Link to the Arrow shared library" ON)
 
 set(CMAKE_CXX_STANDARD 17)
-set(ARROW_LINK_SHARED ON) # Set the Type of Binary built
+set(ARROW_LINK_SHARED OFF) # Set the Type of Binary built
 set(Boost_USE_STATIC_LIBS   ON)
 
 find_package(Boost COMPONENTS program_options REQUIRED)

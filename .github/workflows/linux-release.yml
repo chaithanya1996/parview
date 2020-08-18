@@ -31,7 +31,7 @@ jobs:
         run: cmake .
 
       - name: make build
-        run: make
+        run: make -j2
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2

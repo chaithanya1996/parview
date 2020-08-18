@@ -16,7 +16,7 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_WITH_ZLIB=ON \
                 -DARROW_WITH_ZSTD=ON
 
-make  arrow/cpp/build/Makefile
+make  -j2 arrow/cpp/build/Makefile
 
 make install -C arrow/cpp/build/
 

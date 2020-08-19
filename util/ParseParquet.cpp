@@ -108,6 +108,10 @@ void ParseParquet::getTail(const string& path,int coun) {
 
     int formatRowCount = 0;
     for (int i = 0; i < headerList.size(); ++i) {
+
+        if(formatRow[i] < headerList[i].length()){
+            formatRow[i] = headerList[i].length();
+        };
         formatRow[i] += 3;
         formatRowCount += formatRow[i];
     }
@@ -193,6 +197,9 @@ void ParseParquet::getHead(const string& path,int counH) {
 
     int formatRowCount = 0;
     for (int i = 0; i < headerList.size(); ++i) {
+        if(formatRow[i] < headerList[i].length()){
+            formatRow[i] = headerList[i].length();
+        };
         formatRow[i] += 3;
         formatRowCount += formatRow[i];
     }

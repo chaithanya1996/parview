@@ -11,8 +11,8 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_DEPENDENCY_SOURCE=BUNDLED \
                 -DARROW_DEPENDENCY_USE_SHARED=OFF \
                 -DARROW_PARQUET=ON \
-                -DCMAKE_C_COMPILER=/usr/local/bin/gcc-9.3.0 \
-                -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-9.3.0
+                -DCMAKE_C_COMPILER=/usr/local/bin/gcc \
+                -DCMAKE_CXX_COMPILER=/usr/local/bin/g++
 
 make  arrow/cpp/build/Makefile
 

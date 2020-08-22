@@ -2,6 +2,7 @@
 
 export CPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
 mkdir arrow/cpp/build
+ls -ltrh /usr/local/bin/
 cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
@@ -11,8 +12,8 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_DEPENDENCY_SOURCE=BUNDLED \
                 -DARROW_DEPENDENCY_USE_SHARED=OFF \
                 -DARROW_PARQUET=ON \
-                -DCMAKE_C_COMPILER=/usr/local/bin/gcc \
-                -DCMAKE_CXX_COMPILER=/usr/local/bin/g++
+                -DCMAKE_C_COMPILER=/usr/local/bin/gcc-9 \
+                -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-9
 
 make  arrow/cpp/build/Makefile
 

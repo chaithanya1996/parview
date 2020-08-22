@@ -9,7 +9,8 @@ cmake -S arrow/cpp/  -B arrow/cpp/build \
                 -DARROW_DEPENDENCY_USE_SHARED=OFF \
                 -DARROW_PARQUET=ON
 
-make  arrow/cpp/build/Makefile
+
+make  -j2 arrow/cpp/build/Makefile
 
 make install -C arrow/cpp/build/
 

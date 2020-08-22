@@ -30,7 +30,7 @@ jobs:
         run: cmake -DCMAKE_C_COMPILER=/usr/local/bin/gcc-9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-9 .
 
       - name: make build
-        run: make
+        run: export LD_LIBRARY_PATH=/usr/local/lib && make
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2

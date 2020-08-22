@@ -1,3 +1,3 @@
 #!/bin/bash
 
-brew install boost
+brew install boost pkg-config

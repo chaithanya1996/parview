@@ -20,7 +20,7 @@ if (ARROW_LINK_SHARED)
 else()
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
-    target_link_libraries(parview   ${Boost_LIBRARIES}  parquet arrow_static Threads::Threads  )
+    target_link_libraries(parview   ${Boost_LIBRARIES}  parquet_static arrow_static Threads::Threads  )
 endif()
 
 

@@ -27,7 +27,7 @@ jobs:
         run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
 
       - name: cmake generation
-        run: cmake -DCMAKE_C_COMPILER=/usr/local/bin/gcc-9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-9 .
+        run: cmake .
 
       - name: make build
         run: export LIBRARY_PATH=/usr/local/lib && make

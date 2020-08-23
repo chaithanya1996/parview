@@ -37,7 +37,7 @@ Parquet file command line utility is used to view data in parquet file. The util
  
  ## Installation
  
- Currently the utility offers a static binary built for linux Download the utility from Releases section.
+ Currently the utility offers a static binary built for linux and Macos. Download the utility from Releases section.
  
  ## Build
  

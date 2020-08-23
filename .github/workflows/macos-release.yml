@@ -1,11 +1,11 @@
-name: '[Ubuntu-20.04]Build static binary'
+name: "[Macos 10.15]Building binary."
 
 on: [push,pull_request]
 
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: macos-10.15
 
     steps:
       - name: Get Arrow repo
@@ -14,7 +14,7 @@ jobs:
           path: .
 
       - name: Installing Build Tools.
-        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
+        run: chmod +x ./configure/macos-env.sh &&  ./configure/macos-env.sh
 
       - name: Get Arrow repo
         uses: actions/checkout@v2
@@ -24,17 +24,16 @@ jobs:
           path: arrow
 
       - name: Building Apache Arrow
-        run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
-
+        run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
 
       - name: cmake generation
         run: cmake .
 
       - name: make build
-        run: make -j2
+        run: export LIBRARY_PATH=/usr/local/lib && make
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: parview_linux_x86_64_static_binary
+          name: parview_macos_x86_64_static_binary
           path: ./parview

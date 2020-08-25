@@ -28,13 +28,16 @@ jobs:
 
 
       - name: cmake generation
-        run: cmake .
+        run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
 
-      - name: make build
-        run: make -j2
+      - name: SoanrCloud Installation
+        run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
+
+#      - name: make build
+#        run: make -j2
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: parview_linux_x86_64_static_binary
-          path: ./parview
+          path: ./parbuild/parview

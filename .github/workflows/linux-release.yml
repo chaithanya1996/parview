@@ -31,7 +31,7 @@ jobs:
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
 
       - name: SoanrCloud Installation
-        run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{SONAR_TOKEN}}
+        run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
 
 #      - name: make build
 #        run: make -j2

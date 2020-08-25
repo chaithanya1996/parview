@@ -17,5 +17,5 @@ sonar-scanner \
   -Dsonar.organization=chaithanya1996 \
   -Dsonar.projectKey=chaithanya1996_parview \
   -Dsonar.sources=. \
-  -Dsonar.cfamily.build-wrapper-output=bw-output \
+  -Dsonar.cfamily.build-wrapper-output=build_wrapper_output_directory \
   -Dsonar.host.url=https://sonarcloud.io

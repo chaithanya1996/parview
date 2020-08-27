@@ -9,6 +9,7 @@
 #include "string"
 
 using arrow::Table;
+using arrow::Schema;
 using std::string;
 
 class ParseParquet {
@@ -16,7 +17,7 @@ public:
     static string getCsv(string path);
     static void getHead(const string& path, int counH = 50);
     static void getTail(const string& path, int coun = 50);
-    static std::vector<int> getTableFormatters();
+    static std::vector<int> getTableFormatters(std::shared_ptr<Table> table);
     static void writeHeader(std::shared_ptr<Table> table);
     static void writeTable(std::shared_ptr<Table> table);
 };

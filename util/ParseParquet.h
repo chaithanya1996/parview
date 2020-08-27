@@ -14,6 +14,9 @@ public:
     static string getCsv(string path);
     static void getHead(const string& path, int counH = 50);
     static void getTail(const string& path, int coun = 50);
+    static std::vector<int> getTableFormatters();
+    static void writeHeader();
+    static void writeTable();
 };
 
 

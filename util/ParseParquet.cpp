@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <iostream>
 #include <iomanip>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 using std::cout;
 using std::endl;
@@ -65,7 +67,12 @@ void ParseParquet::getTail(const string& path,int counH) {
 
     cout << endl;
 
-    for (int i = 0; i < formatRowCount + table->schema()->field_names().size(); ++i) {
+    int terminalWidth = getTerminalwidth();
+    if (terminalWidth >  formatRowCount + formatRow.size()){
+        terminalWidth = formatRowCount + formatRow.size();
+    }
+
+    for (int i = 0; i < terminalWidth; ++i) {
         cout << "-";
     }
     cout << endl;
@@ -75,7 +82,7 @@ void ParseParquet::getTail(const string& path,int counH) {
     }
     cout << endl;
 
-    for (int i = 0; i < formatRowCount + table->schema()->field_names().size(); ++i) {
+    for (int i = 0; i < terminalWidth; ++i) {
         cout << "-";
     }
     cout << endl;
@@ -112,12 +119,14 @@ void ParseParquet::getHead(const string& path,int counH) {
 
     // writing Header
 
+    int terminalWidth = getTerminalwidth();
+    if (terminalWidth >  formatRowCount + formatRow.size()){
+        terminalWidth = formatRowCount + formatRow.size();
+    }
     cout << endl;
-
-    for (int i = 0; i < formatRowCount + formatRow.size(); ++i) {
+    for (int i = 0; i < terminalWidth; ++i) {
         cout << "-";
     }
-
 
     cout << endl;
 
@@ -126,7 +135,7 @@ void ParseParquet::getHead(const string& path,int counH) {
     }
     cout << endl;
 
-    for (int i = 0; i < formatRowCount + formatRow.size(); ++i) {
+    for (int i = 0; i < terminalWidth; ++i) {
         cout << "-";
     }
     cout << endl;
@@ -210,6 +219,12 @@ std::shared_ptr<Table> ParseParquet::loadTable(const string &path) {
         throw std::domain_error("Cannot Read Table");
     }
     return table;
+}
+
+int ParseParquet::getTerminalwidth() {
+    struct winsize w{};
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    return w.ws_col;
 }
 
 

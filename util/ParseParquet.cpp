@@ -13,24 +13,10 @@ using std::cout;
 using std::endl;
 
 string ParseParquet::getCsv(string path) {
-    arrow::Status st;
-    auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
-    arrow::MemoryPool* pool = arrow::default_memory_pool();
-    std::shared_ptr<arrow::io::RandomAccessFile> input = memMappedFile.ValueOrDie();
 
-    // Open Parquet file reader
-    std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
-    st = parquet::arrow::OpenFile(input, pool, &arrow_reader);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Open File");
-    }
+    // Load Table
+    std::shared_ptr<arrow::Table> table = loadTable(path);
 
-    // Read entire file as a single Arrow table
-    std::shared_ptr<arrow::Table> table;
-    st = arrow_reader->ReadTable(&table);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Read Table");
-    }
     auto combinedTable = table->CombineChunks().ValueOrDie();
     // writing header
 
@@ -59,81 +45,42 @@ string ParseParquet::getCsv(string path) {
     return csvoutput;
 }
 
-void ParseParquet::getTail(const string& path,int coun) {
+void ParseParquet::getTail(const string& path,int counH) {
     int formatWidth = 10;
 
-    arrow::Status st;
-    auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
-    arrow::MemoryPool* pool = arrow::default_memory_pool();
-    std::shared_ptr<arrow::io::RandomAccessFile> input = memMappedFile.ValueOrDie();
 
-    // Open Parquet file reader
-    std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
-    st = parquet::arrow::OpenFile(input, pool, &arrow_reader);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Open File");
-    }
+    // Load Table
+    std::shared_ptr<arrow::Table> table = loadTable(path);
 
-    // Read entire file as a single Arrow table
-    std::shared_ptr<arrow::Table> table;
-    st = arrow_reader->ReadTable(&table);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Read Table");
-    }
     auto combinedTable = table->CombineChunks().ValueOrDie();
-    // writing header
+    // Boundary Chek
 
-    if(combinedTable->num_rows() < coun){
-        coun = combinedTable->num_rows();
+    if(combinedTable->num_rows() < counH){
+        counH = combinedTable->num_rows();
     }
 
-    auto headerFile = table->schema();
-    auto headerList = headerFile->field_names();
 
-    // formatter for loop
+    auto formatRow = getTableFormatters(table,counH);
+    int formatRowCount  = std::accumulate(formatRow.begin(), formatRow.end(), 0);
 
-    std::vector<int> formatRow(headerList.size()) ;
-
-    for (int j = 0; j < combinedTable->num_columns(); ++j) {
-        for (int k = combinedTable->num_rows() - coun; k < combinedTable->num_rows(); ++k) {
-            auto chunkedColumns = combinedTable->column(j)->chunk(0);
-            auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
-
-            if(formatRow[j] < idCast->GetScalar(k).ValueOrDie()->ToString().length()){
-                formatRow[j] = idCast->GetScalar(k).ValueOrDie()->ToString().length();
-            };
-
-        }
-    }
-
-    int formatRowCount = 0;
-    for (int i = 0; i < headerList.size(); ++i) {
-
-        if(formatRow[i] < headerList[i].length()){
-            formatRow[i] = headerList[i].length();
-        };
-        formatRow[i] += 3;
-        formatRowCount += formatRow[i];
-    }
     cout << endl;
 
-
-    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+    for (int i = 0; i < formatRowCount + table->schema()->field_names().size(); ++i) {
         cout << "-";
     }
     cout << endl;
 
-    for (int i = 0; i < headerList.size(); ++i) {
-        cout << std::setw(formatRow[i]) << std::right << headerList[i]  << "|" ;
+    for (int i = 0; i < table->schema()->field_names().size(); ++i) {
+        cout << std::setw(formatRow[i]) << std::right << table->schema()->field_names()[i]  << "|" ;
     }
     cout << endl;
 
-    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+    for (int i = 0; i < formatRowCount + table->schema()->field_names().size(); ++i) {
         cout << "-";
     }
     cout << endl;
 
-    for (int k = combinedTable->num_rows() - coun; k < combinedTable->num_rows(); ++k) {
+    for (int k = combinedTable->num_rows() - counH; k < combinedTable->num_rows(); ++k) {
         for (int j = 0; j < combinedTable->num_columns(); ++j) {
             auto chunkedColumns = combinedTable->column(j)->chunk(0);
             auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
@@ -147,24 +94,10 @@ void ParseParquet::getTail(const string& path,int coun) {
 }
 
 void ParseParquet::getHead(const string& path,int counH) {
-    arrow::Status st;
-    auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
-    arrow::MemoryPool* pool = arrow::default_memory_pool();
-    std::shared_ptr<arrow::io::RandomAccessFile> input = memMappedFile.ValueOrDie();
 
-    // Open Parquet file reader
-    std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
-    st = parquet::arrow::OpenFile(input, pool, &arrow_reader);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Open File");
-    }
+    // Load Table
+    std::shared_ptr<arrow::Table> table = loadTable(path);
 
-    // Read entire file as a single Arrow table
-    std::shared_ptr<arrow::Table> table;
-    st = arrow_reader->ReadTable(&table);
-    if (!st.ok()) {
-        throw std::domain_error("Cannot Read Table");
-    }
     auto combinedTable = table->CombineChunks().ValueOrDie();
     // Boundary Chek
 
@@ -173,53 +106,27 @@ void ParseParquet::getHead(const string& path,int counH) {
     }
 
 
-    // writing header
-    auto headerFile = table->schema();
-    auto headerList = headerFile->field_names();
-
-    // formatter for loop
-
-    std::vector<int> formatRow(headerList.size()) ;
-
-    for (int j = 0; j < combinedTable->num_columns(); ++j) {
-        for (int k = 0; k < counH; ++k) {
-            auto chunkedColumns = combinedTable->column(j)->chunk(0);
-            auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
-
-            if(formatRow[j] < idCast->GetScalar(k).ValueOrDie()->ToString().length()){
-                formatRow[j] = idCast->GetScalar(k).ValueOrDie()->ToString().length();
-            };
-
-        }
-    }
+    auto formatRow = getTableFormatters(table,counH);
+    int formatRowCount  = std::accumulate(formatRow.begin(), formatRow.end(), 0);
 
 
-
-    int formatRowCount = 0;
-    for (int i = 0; i < headerList.size(); ++i) {
-        if(formatRow[i] < headerList[i].length()){
-            formatRow[i] = headerList[i].length();
-        };
-        formatRow[i] += 3;
-        formatRowCount += formatRow[i];
-    }
-    cout << endl;
-
-// writing Header
-
+    // writing Header
 
     cout << endl;
-    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+
+    for (int i = 0; i < formatRowCount + formatRow.size(); ++i) {
         cout << "-";
     }
+
+
     cout << endl;
 
-    for (int i = 0; i < headerList.size(); ++i) {
-        cout << std::setw(formatRow[i]) << std::right << headerList[i]  << "|" ;
+    for (int i = 0; i < formatRow.size(); ++i) {
+        cout << std::setw(formatRow[i]) << std::right << table->schema()->field_names()[i]  << "|" ;
     }
     cout << endl;
 
-    for (int i = 0; i < formatRowCount + headerList.size(); ++i) {
+    for (int i = 0; i < formatRowCount + formatRow.size(); ++i) {
         cout << "-";
     }
     cout << endl;
@@ -235,3 +142,74 @@ void ParseParquet::getHead(const string& path,int counH) {
     }
     cout << endl;
 }
+
+
+std::vector<int> ParseParquet::getTableFormatters(const std::shared_ptr<Table>& table, int counH) {
+
+
+    auto combinedTable = table->CombineChunks().ValueOrDie();
+    // Boundary Chek
+
+    if(combinedTable->num_rows() < counH){
+        counH = combinedTable->num_rows();
+    }
+
+    auto headerList = table->schema()->field_names();
+
+    // formatter for loop
+
+    std::vector<int> rowLenList(headerList.size()) ;
+
+    for (int j = 0; j < combinedTable->num_columns(); ++j) {
+        for (int k = 0; k < counH; ++k) {
+            auto chunkedColumns = combinedTable->column(j)->chunk(0);
+            auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
+
+            if(rowLenList[j] < idCast->GetScalar(k).ValueOrDie()->ToString().length()){
+                rowLenList[j] = idCast->GetScalar(k).ValueOrDie()->ToString().length();
+            };
+
+        }
+    }
+
+
+
+    int formatRowCount = 0;
+    for (int i = 0; i < headerList.size(); ++i) {
+        if(rowLenList[i] < headerList[i].length()){
+            rowLenList[i] = headerList[i].length();
+        };
+        rowLenList[i] += 3;
+        formatRowCount += rowLenList[i];
+    }
+
+    return rowLenList;
+}
+
+std::shared_ptr<Table> ParseParquet::loadTable(const string &path) {
+
+    arrow::Status st;
+    auto memMappedFile = arrow::io::MemoryMappedFile::Open(path,arrow::io::FileMode::type::READ);
+
+    // Creating Memory pool to hold the Table chunks
+    arrow::MemoryPool* pool = arrow::default_memory_pool();
+    std::shared_ptr<arrow::io::RandomAccessFile> input = memMappedFile.ValueOrDie();
+
+    // Open Parquet file reader
+    std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
+    st = parquet::arrow::OpenFile(input, pool, &arrow_reader);
+
+    if (!st.ok()) {
+        throw std::domain_error("Cannot Open File");
+    }
+
+    // Read entire file as a single Arrow table
+    std::shared_ptr<arrow::Table> table;
+    st = arrow_reader->ReadTable(&table);
+    if (!st.ok()) {
+        throw std::domain_error("Cannot Read Table");
+    }
+    return table;
+}
+
+

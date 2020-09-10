@@ -17,9 +17,11 @@ public:
     static string getCsv(string path);
     static void getHead(const string& path, int counH = 50);
     static void getTail(const string& path, int coun = 50);
-    static std::vector<int> getTableFormatters(std::shared_ptr<Table> table);
+    static std::shared_ptr<Table> loadTable(const string& path);
     static void writeHeader(std::shared_ptr<Table> table);
     static void writeTable(std::shared_ptr<Table> table);
+
+    static std::vector<int> getTableFormatters(const std::shared_ptr<Table>& table, int counH);
 };
 
 

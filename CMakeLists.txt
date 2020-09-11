@@ -13,7 +13,7 @@ find_package(Arrow REQUIRED)
 message(STATUS "Arrow version: ${ARROW_VERSION}")
 message(STATUS "Arrow SO version: ${ARROW_FULL_SO_VERSION}")
 
-add_executable(parview main.cpp util/ParseParquet.cpp util/ParseParquet.h)
+add_executable(parview src/main/main.cpp src/main/util/ParseParquet.cpp src/main/util/ParseParquet.h)
 
 if (ARROW_LINK_SHARED)
     target_link_libraries(parview   ${Boost_LIBRARIES}  parquet arrow_shared )

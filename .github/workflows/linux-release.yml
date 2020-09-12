@@ -19,18 +19,13 @@ jobs:
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
 
-      - name: Cache the Artifacts
-        id: cache	
+      - name: Cache multiple paths
         uses: actions/cache@v2
-          with:
-            path: |
-              build/arrow/
-            key: ${{ runner.os }}-${{ hashFiles('arrow') }}
+        with:
+          path: |
+            **/build/arrow/
+          key: ${{ runner.os }}-${{ hashFiles('arrow/') }}
 
-	    - name: Install Dependencies
-    	  if: steps.cache.outputs.cache-hit != 'true'
-    	  run: echo " Cache HIT"
-    
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
 

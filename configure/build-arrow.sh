@@ -1,5 +1,6 @@
 #!/bin/bash
 
+ls -l 
 cmake -S ../arrow/cpp/  -B ../build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \

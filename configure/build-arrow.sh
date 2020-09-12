@@ -11,7 +11,7 @@ cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_PARQUET=ON
 
 
-make -j4 ../build/arrow/Makefile
+make -j4 build/arrow/Makefile
 
 #make install -C arrow/cpp/build/
 

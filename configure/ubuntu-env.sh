@@ -2,7 +2,5 @@
 
 apt-get update -y -q && \
     apt-get install -y -q --no-install-recommends \
-      build-essential \
-      libboost-all-dev \
-      cmake && \
+      libboost-all-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists*

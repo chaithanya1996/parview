@@ -1,20 +1,19 @@
 #!/bin/bash
 
 export CPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
-mkdir arrow/cpp/build
 
-cmake -S arrow/cpp/  -B arrow/cpp/build \
+mkdir -p build/arrow
+
+mkdir -p build/arrow
+cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
-                -DARROW_COMPUTE=ON \
                 -DARROW_CSV=ON \
-                -DARROW_DATASET=ON \
                 -DARROW_DEPENDENCY_SOURCE=BUNDLED \
                 -DARROW_DEPENDENCY_USE_SHARED=OFF \
                 -DARROW_PARQUET=ON
 
+make -j2 -C build/arrow
 
-make  arrow/cpp/build/Makefile
-
-make install -C arrow/cpp/build/
+make install -C build/arrow
 

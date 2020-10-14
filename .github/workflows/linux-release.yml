@@ -36,7 +36,7 @@ jobs:
 
       - name: cache hit detect
         if: steps.cache.outputs.cache-hit != 'true'
-        run: echo cache-hit
+        run: ls build/arrow/
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..

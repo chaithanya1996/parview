@@ -39,4 +39,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: parview_macos_x86_64_static_binary
-          path: ./parview
+          path: ./parbuild/parview

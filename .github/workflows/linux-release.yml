@@ -14,7 +14,7 @@ jobs:
           path: .
 
       - name: Installing Build Tools.
-        run: chmod +x ./configure/ubuntu-env.sh && sudo ./configure/ubuntu-env.sh
+        run: sudo apt-get update -y -q && sudo apt-get install -y -q libboost-all-dev
 
       - name: Get Arrow repo
         uses: actions/checkout@v2
@@ -26,6 +26,17 @@ jobs:
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
 
+#      - name: Cache multiple paths
+#        id: cache
+#        uses: actions/cache@v2
+#        with:
+#          path: |
+#            **/build/arrow/
+#          key: ${{ runner.os }}-${{ hashFiles('arrow/') }}
+#
+#      - name: cache hit detect
+#        if: steps.cache.outputs.cache-hit != 'true'
+#        run: ls build/arrow/
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
@@ -33,8 +44,8 @@ jobs:
       - name: SoanrCloud Installation
         run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
 
-#      - name: make build
-#        run: make -j2
+      - name: make build
+        run: make -j2 -C parbuild
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2

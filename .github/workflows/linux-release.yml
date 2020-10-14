@@ -44,8 +44,8 @@ jobs:
       - name: SoanrCloud Installation
         run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
 
-#      - name: make build
-#        run: make -j2
+      - name: make build
+        run: make -j2 -C parbuild
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v2

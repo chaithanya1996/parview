@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ls -l 
+echo $CPATH
 mkdir -p build/arrow
 cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \

@@ -10,6 +10,10 @@ echo "------------------------------"
 echo $OSTYPE
 echo "------------------------------"
 
+if [ $OSTYPE = "darwin19" ] ; then
+  export CPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+fi
+
 
 mkdir -p build/arrow
 cmake -S arrow/cpp/  -B build/arrow \

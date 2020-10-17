@@ -1,6 +1,11 @@
 #!/bin/bash
 
-echo $CPATH
+if [[ -z "${CPATH}" ]]; then
+  echo $CPATH
+else
+  echo "CPATH Not found"
+fi
+
 mkdir -p build/arrow
 cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \

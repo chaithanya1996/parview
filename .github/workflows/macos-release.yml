@@ -16,9 +16,6 @@ jobs:
       - name: Installing Build Tools.
         run: brew install boost pkg-config
 
-      - name: Export CPATH for Mac Compiler
-        run: export CPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
-
       - name: Get Arrow repo
         uses: actions/checkout@v2
         with:

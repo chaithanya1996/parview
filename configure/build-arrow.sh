@@ -6,6 +6,11 @@ else
   echo "CPATH Not found"
 fi
 
+echo "------------------------------"
+echo $OSTYPE
+echo "------------------------------"
+
+
 mkdir -p build/arrow
 cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \

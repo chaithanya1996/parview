@@ -39,7 +39,7 @@ jobs:
 #        run: ls build/arrow/
 
       - name: cmake generation
-        run: export LIBRARY_PATH=build/arrow_build/lib && mkdir parbuild && cd parbuild && cmake .. . && cd ..
+        run: export LD_LIBRARY_PATH=build/arrow_build/lib && mkdir parbuild && cd parbuild && cmake .. . && cd ..
 
       - name: SoanrCloud Installation
         run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}

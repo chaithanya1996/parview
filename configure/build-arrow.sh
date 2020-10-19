@@ -5,6 +5,7 @@ if [ $OSTYPE = "darwin19" ] ; then
 fi
 
 mkdir -p build/arrow
+mkdir -p build/arrow_build
 cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
@@ -17,7 +18,8 @@ cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_WITH_LZ4=ON \
                 -DARROW_WITH_SNAPPY=ON \
                 -DARROW_WITH_ZLIB=ON \
-                -DARROW_WITH_ZSTD=ON
+                -DARROW_WITH_ZSTD=ON \
+		-DCMAKE_INSTALL_PREFIX=build/arrow_build
 
 make -j2 -C build/arrow
 make install -C build/arrow

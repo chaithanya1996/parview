@@ -24,4 +24,4 @@ cmake -S arrow/cpp/  -B build/arrow \
 make -j2 -C build/arrow
 make install -C build/arrow
 
-export LIBRARY_PATH=build/arrow_build
+export LIBRARY_PATH=build/arrow_build/lib

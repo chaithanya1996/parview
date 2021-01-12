@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-10.15
 
     steps:
-      - name: Get Arrow repo
+      - name: Get parview repo
         uses: actions/checkout@v2
         with:
           path: .
@@ -16,12 +16,12 @@ jobs:
       - name: Installing Build Tools.
         run: brew install boost pkg-config
 
-#      - name: Get Arrow repo
-#        uses: actions/checkout@v2
-#        with:
-#          repository: apache/arrow
-#          ref: 'apache-arrow-2.0.0'
-#          path: arrow
+      - name: Get Arrow repo
+        uses: actions/checkout@v2
+        with:
+          repository: apache/arrow
+          ref: 'apache-arrow-2.0.0'
+          path: arrow
 
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh

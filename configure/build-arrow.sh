@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $OSTYPE = "darwin19" ] ; then
-  export CPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+  export CPATH=/Applications/Xcode_12.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
 fi
 
 mkdir -p build/arrow

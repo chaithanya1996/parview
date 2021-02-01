@@ -20,23 +20,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: apache/arrow
-          ref: 'apache-arrow-2.0.0'
+          ref: 'apache-arrow-3.0.0'
           path: arrow
 
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
-
-#      - name: Cache multiple paths
-#        id: cache
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            **/build/arrow/
-#          key: ${{ runner.os }}-${{ hashFiles('arrow/') }}
-#
-#      - name: cache hit detect
-#        if: steps.cache.outputs.cache-hit != 'true'
-#        run: ls build/arrow/
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..

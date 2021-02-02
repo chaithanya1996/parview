@@ -27,7 +27,7 @@ jobs:
         run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
 
       - name: cmake generation
-        run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
+        run: mkdir parbuild && cd parbuild && cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 -DCMAKE_C_COMPILER=/usr/local/bin/gcc-10 .. . && cd ..
 
       - name: make build
         run: export LIBRARY_PATH=/usr/local/lib &&  make -j2 -C parbuild

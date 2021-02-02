@@ -24,7 +24,7 @@ jobs:
           path: arrow
 
       - name: Building Apache Arrow
-        run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
+        run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..

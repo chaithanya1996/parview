@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 project(parview)
 
 option(ARROW_LINK_SHARED "Link to the Arrow shared library" ON)

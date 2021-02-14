@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include <boost/program_options.hpp>
 #include "util/ParseParquet.h"
 #include <fstream>
 #include <filesystem>

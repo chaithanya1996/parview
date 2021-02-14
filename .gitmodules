@@ -3,4 +3,4 @@
 	url = https://github.com/apache/arrow.git
 [submodule "cxxopts"]
 	path = cxxopts
-	url = ./cxxopts
+	url = https://github.com/jarro2783/cxxopts

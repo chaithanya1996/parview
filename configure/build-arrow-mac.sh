@@ -1,7 +1,12 @@
 #!/bin/bash
 
+#if [ $OSTYPE = "darwin19" ] ; then
+#  export CPATH=/Library/Developer/CommandLineTools/usr/include/c++/v1
+#fi
+
 mkdir -p build/arrow
-cmake -S arrow/cpp/  -B build/arrow \
+
+cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 -DCMAKE_C_COMPILER=/usr/local/bin/gcc-10  -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
                 -DARROW_CSV=ON \

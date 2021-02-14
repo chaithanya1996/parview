@@ -8,35 +8,30 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Get Arrow repo
+      - name: Get parview repo
         uses: actions/checkout@v2
         with:
           path: .
 
       - name: Installing Build Tools.
-        run: sudo apt-get update -y -q && sudo apt-get install -y -q libboost-all-dev
+        run: sudo apt-get update -y -q
+
+      - name: Get cxxopts repo
+        uses: actions/checkout@v2
+        with:
+          repository: jarro2783/cxxopts
+          ref: 'v2.2.1'
+          path: cxxopts
 
       - name: Get Arrow repo
         uses: actions/checkout@v2
         with:
           repository: apache/arrow
-          ref: 'apache-arrow-1.0.0'
+          ref: 'apache-arrow-3.0.0'
           path: arrow
 
       - name: Building Apache Arrow
         run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
-
-#      - name: Cache multiple paths
-#        id: cache
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            **/build/arrow/
-#          key: ${{ runner.os }}-${{ hashFiles('arrow/') }}
-#
-#      - name: cache hit detect
-#        if: steps.cache.outputs.cache-hit != 'true'
-#        run: ls build/arrow/
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..

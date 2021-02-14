@@ -14,7 +14,14 @@ jobs:
           path: .
 
       - name: Installing Build Tools.
-        run: sudo apt-get update -y -q && sudo apt-get install -y -q libboost-all-dev
+        run: sudo apt-get update -y -q
+
+      - name: Get cxxopts repo
+          uses: actions/checkout@v2
+          with:
+            repository: jarro2783/cxxopts
+            ref: 'v2.2.1'
+            path: cxxopts
 
       - name: Get Arrow repo
         uses: actions/checkout@v2

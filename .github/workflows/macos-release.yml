@@ -1,11 +1,11 @@
-name: "[macos-latest]Building binary."
+name: "[macos-10.15]Building binary."
 
 on: [push,pull_request]
 
 
 jobs:
   build:
-    runs-on:  macos-latest
+    runs-on:  macos-10.15
 
     steps:
       - name: Get parview repo
@@ -13,8 +13,12 @@ jobs:
         with:
           path: .
 
-      - name: Installing Build Tools.
-        run: brew install boost pkg-config
+      - name: Get cxxopts repo
+          uses: actions/checkout@v2
+          with:
+            repository: jarro2783/cxxopts
+            ref: 'v2.2.1'
+            path: cxxopts
 
       - name: Get Arrow repo
         uses: actions/checkout@v2

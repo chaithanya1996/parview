@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: apache/arrow
-          ref: 'apache-arrow-3.0.0'
+          ref: 'apache-arrow-7.0.0'
           path: arrow
 
       - name: Building Apache Arrow

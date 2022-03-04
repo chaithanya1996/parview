@@ -1,0 +1,43 @@
+name: "[macos-10.15]Building binary."
+
+on: [push,pull_request]
+
+
+jobs:
+  build:
+    runs-on:  macos-11
+
+    steps:
+      - name: Get parview repo
+        uses: actions/checkout@v2
+        with:
+          path: .
+
+      - name: Get cxxopts repo
+        uses: actions/checkout@v2
+        with:
+          repository: jarro2783/cxxopts
+          ref: 'v2.2.1'
+          path: cxxopts
+
+      - name: Get Arrow repo
+        uses: actions/checkout@v2
+        with:
+          repository: apache/arrow
+          ref: 'apache-arrow-3.0.0'
+          path: arrow
+
+      - name: Building Apache Arrow
+        run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
+
+      - name: cmake generation
+        run: mkdir parbuild && cd parbuild && cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-10 -DCMAKE_C_COMPILER=/usr/local/bin/gcc-10 .. . && cd ..
+
+      - name: make build
+        run: export LIBRARY_PATH=/usr/local/lib &&  make -j2 -C parbuild
+
+      - name:  Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: parview_macos_x86_64_static_binary
+          path: ./parbuild/parview

@@ -1,11 +1,11 @@
-name: "[macos-10.15]Building binary."
+name: "[macos-latest]Building binary."
 
 on: [push,pull_request]
 
 
 jobs:
   build:
-    runs-on:  macos-11
+    runs-on:  macos-latest
 
     steps:
       - name: Get parview repo

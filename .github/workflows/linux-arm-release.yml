@@ -1,0 +1,49 @@
+name: '[Ubuntu-20.04]Build static binary'
+
+on: [push,pull_request]
+
+
+jobs:
+  build:
+    runs-on: chaithanya1996-parview.ubuntu-aws-arm
+
+    steps:
+      - name: Get parview repo
+        uses: actions/checkout@v2
+        with:
+          path: .
+
+      - name: Installing Build Tools.
+        run: sudo apt-get update -y -q
+
+      - name: Get cxxopts repo
+        uses: actions/checkout@v2
+        with:
+          repository: jarro2783/cxxopts
+          ref: 'v2.2.1'
+          path: cxxopts
+
+      - name: Get Arrow repo
+        uses: actions/checkout@v2
+        with:
+          repository: apache/arrow
+          ref: 'apache-arrow-7.0.0'
+          path: arrow
+
+      - name: Building Apache Arrow
+        run: chmod +x ./configure/build-arrow.sh && sudo ./configure/build-arrow.sh
+
+      - name: cmake generation
+        run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
+
+      - name: SoanrCloud Installation
+        run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
+
+      - name: make build
+        run: make -j2 -C parbuild
+
+      - name:  Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: parview_linux_x86_64_static_binary
+          path: ./parbuild/parview

@@ -1,11 +1,11 @@
-name: '[Ubuntu-20.04]Build static binary'
+name: '[Ubuntu-22.04]Build Arm static binary'
 
 on: [push,pull_request]
 
 
 jobs:
   build:
-    runs-on: chaithanya1996-parview.ubuntu-aws-arm
+    runs-on: [self-hosted, linux, ARM64]
 
     steps:
       - name: Get parview repo

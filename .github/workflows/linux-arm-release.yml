@@ -17,14 +17,14 @@ jobs:
         run: sudo apt-get update -y -q
 
       - name: Get cxxopts repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: jarro2783/cxxopts
           ref: 'v2.2.1'
           path: cxxopts
 
       - name: Get Arrow repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: apache/arrow
           ref: 'apache-arrow-7.0.0'

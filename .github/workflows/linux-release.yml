@@ -1,15 +1,15 @@
-name: '[Ubuntu-20.04]Build static binary'
+name: '[Ubuntu-22.04]Build static binary'
 
 on: [push,pull_request]
 
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Get parview repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: .
 
@@ -17,17 +17,17 @@ jobs:
         run: sudo apt-get update -y -q
 
       - name: Get cxxopts repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: jarro2783/cxxopts
-          ref: 'v2.2.1'
+          ref: 'v3.1.1'
           path: cxxopts
 
       - name: Get Arrow repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: apache/arrow
-          ref: 'apache-arrow-7.0.0'
+          ref: 'apache-arrow-12.0.1'
           path: arrow
 
       - name: Building Apache Arrow

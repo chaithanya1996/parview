@@ -6,7 +6,7 @@
 
 mkdir -p build/arrow
 
-cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++-13 -DCMAKE_C_COMPILER=/usr/bin/gcc-13  -S arrow/cpp/  -B build/arrow \
+cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
                 -DARROW_CSV=ON \

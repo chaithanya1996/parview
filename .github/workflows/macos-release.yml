@@ -31,10 +31,10 @@ jobs:
         run: chmod +x ./configure/build-arrow-mac.sh && sudo ./configure/build-arrow-mac.sh
 
       - name: cmake generation
-        run: mkdir parbuild && cd parbuild && cmake -DCMAKE_CXX_COMPILER=/usr/bin/g++-12 -DCMAKE_C_COMPILER=/usr/bin/gcc-12 .. . && cd ..
+        run: mkdir parbuild && cd parbuild && cmake -S .. -B . && cd ..
 
       - name: make build
-        run: export LIBRARY_PATH=/usr/local/lib &&  make -j2 -C parbuild
+        run: make -j2 -C parbuild
 
       - name:  Upload Artifact
         uses: actions/upload-artifact@v4

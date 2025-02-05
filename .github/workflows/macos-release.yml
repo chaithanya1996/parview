@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: jarro2783/cxxopts
-          ref: 'v3.1.1'
+          ref: 'v3.2.1'
           path: cxxopts
 
       - name: Get Arrow repo
@@ -37,7 +37,7 @@ jobs:
         run: export LIBRARY_PATH=/usr/local/lib &&  make -j2 -C parbuild
 
       - name:  Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: parview_macos_x86_64_static_binary
           path: ./parbuild/parview

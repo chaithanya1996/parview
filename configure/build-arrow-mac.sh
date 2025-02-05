@@ -20,6 +20,6 @@ cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_WITH_ZLIB=ON \
                 -DARROW_WITH_ZSTD=ON
 
-make -j2 -C build/arrow
+make -j3 -C build/arrow
 make install -C build/arrow
 

@@ -20,14 +20,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: jarro2783/cxxopts
-          ref: 'v3.2.1'
+          ref: 'v3.2.0'
           path: cxxopts
 
       - name: Get Arrow repo
         uses: actions/checkout@v4
         with:
           repository: apache/arrow
-          ref: 'apache-arrow-12.0.1'
+          ref: 'apache-arrow-19.0.0'
           path: arrow
 
       - name: Building Apache Arrow
@@ -36,8 +36,8 @@ jobs:
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
 
-      - name: SoanrCloud Installation
-        run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
+      # - name: SoanrCloud Installation
+      #   run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
 
       - name: make build
         run: make -j2 -C parbuild

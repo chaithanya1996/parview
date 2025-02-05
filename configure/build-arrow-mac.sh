@@ -6,7 +6,7 @@
 
 mkdir -p build/arrow
 
-cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-12 -DCMAKE_C_COMPILER=/usr/local/bin/gcc-12  -S arrow/cpp/  -B build/arrow \
+cmake -S arrow/cpp/  -B build/arrow \
                 -DARROW_BUILD_SHARED=OFF \
                 -DARROW_BUILD_STATIC=ON \
                 -DARROW_CSV=ON \
@@ -20,6 +20,6 @@ cmake -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-12 -DCMAKE_C_COMPILER=/usr/local/b
                 -DARROW_WITH_ZLIB=ON \
                 -DARROW_WITH_ZSTD=ON
 
-make -j2 -C build/arrow
+make -j3 -C build/arrow
 make install -C build/arrow
 

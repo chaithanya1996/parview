@@ -1,6 +1,6 @@
-name: '[Ubuntu-22.04]Build static binary'
+name: '[Ubuntu]Build static binary'
 
-on: [push,pull_request]
+on: [push]
 
 
 jobs:
@@ -35,9 +35,6 @@ jobs:
 
       - name: cmake generation
         run: mkdir parbuild && cd parbuild && cmake .. . && cd ..
-
-      # - name: SoanrCloud Installation
-      #   run: sudo chmod +x ./configure/sonarcloud.sh && sudo ./configure/sonarcloud.sh ${{ secrets.SONAR_TOKEN }}
 
       - name: make build
         run: make -j2 -C parbuild

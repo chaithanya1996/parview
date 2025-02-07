@@ -1,6 +1,6 @@
 name: "[macos-latest]Building binary."
 
-on: [push,pull_request]
+on: [push]
 
 
 jobs:

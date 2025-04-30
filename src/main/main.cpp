@@ -50,23 +50,23 @@ int main(int argc, char ** argv ) {
     if (parsedManOptions.count("csv")){
 
 
-        string outPutString =  ParseParquet::getCsv(parsedManOptions["filename"].as<string>()) ;
+        ParseParquet::writeCSV(parsedManOptions["filename"].as<string>() + ".csv" ) ;
 
-        // write to output
-        std::ofstream outputCSV;
-        string oFileName;
+        // // write to output
+        // std::ofstream outputCSV;
+        // string oFileName;
 
-        try{
-            oFileName = parsedManOptions["output"].as<string>();
-        }
-        catch(const std::exception& e){
-            oFileName = fs::path(parsedManOptions["filename"].as<string>()).stem();
-        }
-        cout << " CSV Being Written to filename: " << oFileName << endl;
+        // try{
+        //     oFileName = parsedManOptions["output"].as<string>();
+        // }
+        // catch(const std::exception& e){
+        //     oFileName = fs::path(parsedManOptions["filename"].as<string>()).stem();
+        // }
+        // cout << " CSV Being Written to filename: " << oFileName << endl;
 
-        outputCSV.open ( oFileName + ".csv");
-        outputCSV << outPutString;
-        outputCSV.close();
+        // outputCSV.open ( oFileName + ".csv");
+        // outputCSV << outPutString;
+        // outputCSV.close();
 
         return 0;
     }

@@ -49,9 +49,14 @@ int main(int argc, char ** argv ) {
 
     if (parsedManOptions.count("csv")){
 
-
-        ParseParquet::writeCSV(parsedManOptions["filename"].as<string>() + ".csv" ) ;
-
+        string inputParquetFileName = parsedManOptions["filename"].as<string>() ;
+        string outputCSVFilePath = inputParquetFileName + ".csv";
+        if (parsedManOptions.count("output")){
+            outputCSVFilePath = parsedManOptions["output"].as<string>();
+        }
+        
+        arrow::Status returnStatus =  ParseParquet::writeCSV(inputParquetFileName,outputCSVFilePath) ;
+        //cout << returnStatus.detail().get()->ToString() << endl;
         // // write to output
         // std::ofstream outputCSV;
         // string oFileName;

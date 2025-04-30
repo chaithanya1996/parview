@@ -14,9 +14,9 @@ using std::string;
 
 class ParseParquet {
 public:
-    static arrow::Status writeCSV(string path);
     static void getHead(const string &path, int counH = 50);
-    static void getTail(const string& path, int coun = 50);
+    static arrow::Status writeCSV(string inputParquetFilePath, string OutPutCSVFilePath);
+    static void getTail(const string &path, int coun = 50);
     static std::shared_ptr<Table> loadTable(const string& path);
     static int getTerminalwidth();
     static void writeHeader(std::shared_ptr<Table> table);

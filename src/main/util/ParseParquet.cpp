@@ -15,41 +15,11 @@
 using std::cout;
 using std::endl;
 
-// string ParseParquet::getCsv(string path) {
 
-//     // Load Table
-//     std::shared_ptr<arrow::Table> table = loadTable(path);
+arrow::Status ParseParquet::writeCSV(string inputParquetFilePath, string OutPutCSVFilePath) {
 
-//     auto combinedTable = table->CombineChunks().ValueOrDie();
-//     // writing header
-
-//     auto headerFile = table->schema();
-//     auto headerList = headerFile->field_names();
-
-//     string csvoutput ;
-//     for (int i = 0; i < headerList.size(); ++i) {
-//         csvoutput.append(headerList[i]);
-//         if (i!=headerList.size()-1) {
-//             csvoutput.append(",");
-//         };
-//     }
-//     csvoutput.append("\n");
-
-//     for (int k = 0; k < combinedTable->num_rows(); ++k) {
-//         for (int j = 0; j < combinedTable->num_columns(); ++j) {
-//             auto chunkedColumns = combinedTable->column(j)->chunk(0);
-//             auto idCast = std::static_pointer_cast<arrow::StringArray>(chunkedColumns);
-//             csvoutput.append(idCast->GetScalar(k).ValueOrDie()->ToString());
-//             csvoutput.append(",");
-//         }
-//         csvoutput.append("\n");
-//     }
-//     csvoutput.append("\n");
-//     return csvoutput;
-// }
-
-arrow::Status ParseParquet::writeCSV(string path_to_file) {
-
+    cout << "Input File Path: " << inputParquetFilePath << endl;
+    cout << "OutPut File Path: " << OutPutCSVFilePath << endl;
    
     arrow::MemoryPool* pool = arrow::default_memory_pool();
 
@@ -61,36 +31,21 @@ arrow::Status ParseParquet::writeCSV(string path_to_file) {
     // Configure Arrow-specific Parquet reader settings
     auto arrow_reader_props = parquet::ArrowReaderProperties();
     arrow_reader_props.set_batch_size(128 * 1024);  // default 64 * 1024
-
     parquet::arrow::FileReaderBuilder reader_builder;
     ARROW_RETURN_NOT_OK(
-        reader_builder.OpenFile(path_to_file, /*memory_map=*/false, reader_properties));
+        reader_builder.OpenFile(inputParquetFilePath, /*memory_map=*/false, reader_properties));
     reader_builder.memory_pool(pool);
     reader_builder.properties(arrow_reader_props);
-
     std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
     ARROW_ASSIGN_OR_RAISE(arrow_reader, reader_builder.Build());
     
-
     std::shared_ptr<arrow::RecordBatchReader> rb_reader;
     ARROW_RETURN_NOT_OK(arrow_reader->GetRecordBatchReader(&rb_reader));
-
     std::shared_ptr<arrow::io::FileOutputStream> outfile;
-    ARROW_ASSIGN_OR_RAISE(outfile, arrow::io::FileOutputStream::Open(path_to_file));
 
+    ARROW_ASSIGN_OR_RAISE(outfile, arrow::io::FileOutputStream::Open(OutPutCSVFilePath));
     arrow::csv::WriteOptions write_options = arrow::csv::WriteOptions::Defaults();
-    // std::shared_ptr<arrow::Schema> parquetFileSchema ;
-    // ARROW_RETURN_NOT_OK(arrow_reader->GetSchema(&parquetFileSchema));
-    // auto maybe_writer = arrow::csv::MakeCSVWriter(outfile, parquetFileSchema, write_options);
-    // std::shared_ptr<arrow::ipc::RecordBatchWriter> writer = *maybe_writer;
     arrow::csv::WriteCSV(rb_reader,write_options,outfile.get());
-    // for (arrow::Result<std::shared_ptr<arrow::RecordBatch>> maybe_batch : *rb_reader) {
-
-    //     // Status WriteCSV(const std::shared_ptr<RecordBatchReader>& reader,
-    //     //     const WriteOptions& options, arrow::io::OutputStream* output) {
-    // }
-
-    
     return arrow::Status::OK();
 
 }
